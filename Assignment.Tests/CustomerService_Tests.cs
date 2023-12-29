@@ -7,7 +7,7 @@ namespace Assignment.Tests;
 public class CustomerService_Tests
 {
     [Fact]
-    public void AddToListShould_AddOneCustomerToCustomerList_ThenReturnTrue()
+    public void AddOneCustomerToCustomerList_ThenReturnTrue()
     {
         // Arrange
 
@@ -22,5 +22,24 @@ public class CustomerService_Tests
 
         Assert.True(result);
     }
-    
+
+    [Fact]
+    public void GetAllCustomersFromCustomerList_ThenReturnList()
+    {
+        // Arrange
+
+        ICustomerService customerService = new CustomerService();
+        ICustomer customer = new Customer { FirstName = "Mattias", LastName = "Kasto", PhoneNumber = "071234-56-78", Email = "mattias@domain.com", Address = "Örebro" };
+        customerService.AddToList(customer);
+
+
+        // Act
+        IEnumerable<ICustomer> result = customerService.GetAllFromList();
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.True(result.Any());
+        ICustomer returnedCustomer = result.FirstOrDefault()!;
+        Assert.Equal(1, returnedCustomer.Id);
+    }
 }

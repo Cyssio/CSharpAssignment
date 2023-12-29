@@ -21,4 +21,14 @@ public class CustomerService : ICustomerService
         catch (Exception ex) { Debug.WriteLine(ex.Message); }
         return false;
     }
+
+    public IEnumerable<ICustomer> GetAllFromList()
+    {
+        try
+        {
+            return _customerList;
+        }
+        catch (Exception ex) { Debug.WriteLine(ex.Message); }
+        return null!;
+    }
 }
