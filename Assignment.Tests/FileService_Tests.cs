@@ -6,7 +6,7 @@ namespace Assignment.Tests;
 public class FileService_Tests
 {
     [Fact]
-    public void SaveToFileShould_SaveContentToFile_ThenReturnTrue()
+    public void SaveToFile_ShouldReturnTrue_IfFilePathExists()
     {
         // Arrange
         IFileService fileService = new FileService();
@@ -18,5 +18,20 @@ public class FileService_Tests
 
         // Assert
         Assert.True(result);
+    }
+
+    [Fact]
+    public void SaveToFileShould_ReturnFalse_IfFilePathNotExists()
+    {
+        // Arrange
+        IFileService fileService = new FileService();
+        string filePath = @$"c:\{Guid.NewGuid()}testing.txt";
+        string content = "Testing";
+
+        // Act
+        bool result = fileService.SaveToFile(filePath, content);
+
+        // Assert
+        Assert.False(result);
     }
 }
