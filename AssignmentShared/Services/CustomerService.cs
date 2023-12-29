@@ -47,7 +47,7 @@ public class CustomerService : ICustomerService
             var content = _fileService.GetContentFromFile(_filePath);
             if (!string.IsNullOrEmpty(content))
             {
-                _customerList = JsonConvert.DeserializeObject<List<ICustomer>>(_filePath, new JsonSerializerSettings
+                _customerList = JsonConvert.DeserializeObject<List<ICustomer>>(content, new JsonSerializerSettings
                 {
                     TypeNameHandling = TypeNameHandling.Objects,
                 })!;

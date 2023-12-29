@@ -1,6 +1,8 @@
 ﻿using AssignmentShared.Interfaces;
 using AssignmentShared.Models;
 using AssignmentShared.Services;
+using Moq;
+using Newtonsoft.Json;
 
 namespace Assignment.Tests;
 
@@ -12,7 +14,10 @@ public class CustomerService_Tests
         // Arrange
 
         ICustomer customer = new Customer { FirstName = "Mattias", LastName = "Kasto", PhoneNumber = "071234-56-78", Email = "mattias@domain.com", Address = "Örebro" };
-        ICustomerService customerService = new CustomerService();
+        
+        var mockFileService = new Mock<IFileService>();
+        
+        ICustomerService customerService = new CustomerService(mockFileService.Object);
 
         // Act
 
@@ -28,9 +33,19 @@ public class CustomerService_Tests
     {
         // Arrange
 
-        ICustomerService customerService = new CustomerService();
-        ICustomer customer = new Customer { FirstName = "Mattias", LastName = "Kasto", PhoneNumber = "071234-56-78", Email = "mattias@domain.com", Address = "Örebro" };
-        customerService.AddToList(customer);
+        var customers = new List<ICustomer>
+        {
+            new Customer { Id = 1, FirstName = "Mattias", LastName = "Kasto", PhoneNumber = "071234-56-78", Email = "mattias@domain.com", Address = "Örebro" }
+        };
+        string json = JsonConvert.SerializeObject(customers, Formatting.None, new JsonSerializerSettings
+        {
+            TypeNameHandling = TypeNameHandling.Objects
+        });
+
+        var mockFileService = new Mock<IFileService>();
+        mockFileService.Setup(x => x.GetContentFromFile(It.IsAny<string>())).Returns(json);
+        
+        ICustomerService customerService = new CustomerService(mockFileService.Object);
 
 
         // Act
