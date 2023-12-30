@@ -1,5 +1,6 @@
 ﻿using AssignmentShared.Interfaces;
 using Newtonsoft.Json;
+using System.ComponentModel.Design;
 using System.Diagnostics;
 
 namespace AssignmentShared.Services;
@@ -51,9 +52,11 @@ public class CustomerService : ICustomerService
                 {
                     TypeNameHandling = TypeNameHandling.Objects,
                 })!;
+                            
             }
 
-            return _customerList;
+             return _customerList;
+ 
         }
         catch (Exception ex) { Debug.WriteLine(ex.Message); }
         return null!;
