@@ -97,7 +97,6 @@ public class CustomerService : ICustomerService
 
                 _fileService.SaveToFile(_filePath, json);
 
-                Console.WriteLine("Customer deleted successfully");
                 return true;
             }
             else 
