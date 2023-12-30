@@ -80,5 +80,40 @@ public class CustomerService : ICustomerService
             Debug.WriteLine(ex.Message);
         }
         return null!;
-    }   
+    }
+
+    public bool DeleteCustomerByEmail(string email)
+    {
+        try
+        {
+            // Find the customer with the matching email
+            var customerToRemove = _customerList.FirstOrDefault(c => c.Email == email);
+
+            if (customerToRemove != null)
+            {
+                _customerList.Remove(customerToRemove);
+
+                // Update the JSON file after removing the customer
+                var json = JsonConvert.SerializeObject(_customerList, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Objects,
+                });
+
+                _fileService.SaveToFile(_filePath, json);
+
+                Console.WriteLine("Customer deleted successfully");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Customer not found");
+                return false;
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+            return false;
+        }
+    }
 }
