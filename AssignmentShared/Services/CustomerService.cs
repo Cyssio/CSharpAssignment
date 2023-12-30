@@ -58,4 +58,34 @@ public class CustomerService : ICustomerService
         catch (Exception ex) { Debug.WriteLine(ex.Message); }
         return null!;
     }
+
+    public ICustomer GetCustomerById(int customerId)
+    {
+        
+        
+         try
+            {
+              var content = _fileService.GetContentFromFile(_filePath);
+            if (!string.IsNullOrEmpty(content))
+            {
+                _customerList = JsonConvert.DeserializeObject<List<ICustomer>>(content, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.Objects,
+                })!;
+
+                var customer = _customerList.FirstOrDefault(c => c.Id == customerId);
+
+                return customer!;
+
+            }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            return null!;
+        }
+
+    
 }
