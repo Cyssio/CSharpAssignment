@@ -1,6 +1,7 @@
 ﻿using AssignmentShared.Interfaces;
 using AssignmentShared.Models;
 using AssignmentShared.Services;
+using System.ComponentModel.Design;
 
 namespace Assignment;
 
@@ -68,7 +69,7 @@ internal class MenuService
         Console.Write("Enter your phone number: ");
         string phoneNumber = Console.ReadLine()!;
 
-        Console.Write("Enter address: ");
+        Console.Write("Enter your address: ");
         string address = Console.ReadLine()!;
 
         ICustomer newCustomer = new Customer
@@ -94,27 +95,45 @@ internal class MenuService
 
     private void ViewAllCustomers(ICustomerService customerService)
     {
-        Console.WriteLine("Viewing all customers in the list...");
+        Console.WriteLine("Viewing all customers in the list...\n");
+
         var customers = customerService.GetAllFromList();
-        foreach (var customer in customers)
+        if (customers.Any())
         {
-            Console.WriteLine($"ID: {customer.Id}, Name: {customer.FirstName} {customer.LastName}, Email: <{customer.Email}>");
+            Console.WriteLine("{0,-5} {1,-15} {2,-15} {3,-25}", "ID", "First Name", "Last Name", "Email");
+            Console.WriteLine(new string('-', 60));
+
+            foreach (var customer in customers)
+            {
+                Console.WriteLine($"{customer.Id,-5} {customer.FirstName,-15} {customer.LastName,-15} {customer.Email,-25}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No customers found.");
         }
     }
 
     private void FindCustomerById(ICustomerService customerService)
     {
         Console.Write("Enter the ID of the customer you search for: ");
+        
         if (int.TryParse(Console.ReadLine(), out int customerId))
         {
             var customer = customerService.GetCustomerById(customerId);
             if (customer != null)
             {
-                Console.WriteLine($"Customer found - ID: {customer.Id}, Name: {customer.FirstName} {customer.LastName}, Email: <{customer.Email}>, Phone number: {customer.PhoneNumber}, Adress: {customer.Address}");
+                Console.WriteLine();
+                Console.WriteLine($"*** Customer Details ***");
+                Console.WriteLine($"ID: {customer.Id}\nName: {customer.FirstName} {customer.LastName}");
+                Console.WriteLine($"Email: {customer.Email}");
+                Console.WriteLine($"Phone number: {customer.PhoneNumber}");
+                Console.WriteLine($"Address: {customer.Address}");
             }
             else
             {
-                Console.WriteLine("Unfortunately the customer you're searching for couldn't be found.");
+                Console.WriteLine();
+                Console.WriteLine("Unfortunately the ID you're searching for couldn't be found.");
             }
         }
         else
@@ -132,10 +151,12 @@ internal class MenuService
 
         if (deletionResult)
         {
+            Console.WriteLine();
             Console.WriteLine("Customer was deleted successfully!");
         }
         else
         {
+            Console.WriteLine();
             Console.WriteLine("Sorry the deletion failed. The customer was not able to be found.");
         }
     }
