@@ -1,6 +1,5 @@
 ﻿using AssignmentShared.Interfaces;
 using Newtonsoft.Json;
-using System.ComponentModel.Design;
 using System.Diagnostics;
 
 namespace AssignmentShared.Services;
@@ -72,10 +71,7 @@ public class CustomerService : ICustomerService
             {
                 return customer;
             }
-            else
-            {
-                Console.WriteLine("Customer not found");
-            }
+           
         }
         catch (Exception ex)
         {
@@ -104,10 +100,9 @@ public class CustomerService : ICustomerService
                 Console.WriteLine("Customer deleted successfully");
                 return true;
             }
-            else
-            {
-                Console.WriteLine("Customer not found");
-                return false;
+            else 
+            { 
+                return false; 
             }
         }
         catch (Exception ex)
