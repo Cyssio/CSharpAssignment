@@ -77,4 +77,23 @@ public class CustomerService_Tests
         Assert.Equal(customerId, result.Id);
 
     }
+
+    [Fact]
+    public void DeleteCustomerByEmail_WhenValidEmail_DeletesCustomer()
+    {
+        // Arrange
+        var mockFileService = new Mock<IFileService>();
+        var customerService = new CustomerService(mockFileService.Object);
+
+        var customer = new Customer { Id = 1, FirstName = "Mattias", LastName = "Kasto", PhoneNumber = "071234-56-78", Email = "mattias@domain.com", Address = "Örebro" };
+        customerService.AddToList(customer);
+
+        var emailToDelete = "mattias@domain.com";
+
+        // Act
+        var deletionResult = customerService.DeleteCustomerByEmail(emailToDelete);
+
+        // Assert
+        Assert.True(deletionResult, $"Customer with email '{emailToDelete}' should have been deleted.");
+    }
 }

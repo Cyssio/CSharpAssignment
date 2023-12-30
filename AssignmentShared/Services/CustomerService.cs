@@ -1,5 +1,4 @@
 ﻿using AssignmentShared.Interfaces;
-using AssignmentShared.Models;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
@@ -86,14 +85,12 @@ public class CustomerService : ICustomerService
     {
         try
         {
-            // Find the customer with the matching email
             var customerToRemove = _customerList.FirstOrDefault(c => c.Email == email);
 
             if (customerToRemove != null)
             {
                 _customerList.Remove(customerToRemove);
 
-                // Update the JSON file after removing the customer
                 var json = JsonConvert.SerializeObject(_customerList, new JsonSerializerSettings
                 {
                     TypeNameHandling = TypeNameHandling.Objects,
