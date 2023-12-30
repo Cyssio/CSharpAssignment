@@ -1,4 +1,5 @@
 ﻿using AssignmentShared.Interfaces;
+using AssignmentShared.Models;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
@@ -61,31 +62,23 @@ public class CustomerService : ICustomerService
 
     public ICustomer GetCustomerById(int customerId)
     {
-        
-        
-         try
+        try
+        {
+            var customer = _customerList.FirstOrDefault(c => c.Id == customerId);
+
+            if (customer != null)
             {
-              var content = _fileService.GetContentFromFile(_filePath);
-            if (!string.IsNullOrEmpty(content))
+                return customer;
+            }
+            else
             {
-                _customerList = JsonConvert.DeserializeObject<List<ICustomer>>(content, new JsonSerializerSettings
-                {
-                    TypeNameHandling = TypeNameHandling.Objects,
-                })!;
-
-                var customer = _customerList.FirstOrDefault(c => c.Id == customerId);
-
-                return customer!;
-
+                Console.WriteLine("Customer not found");
             }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-
-            return null!;
         }
-
-    
+        catch (Exception ex)
+        {
+            Debug.WriteLine(ex.Message);
+        }
+        return null!;
+    }   
 }

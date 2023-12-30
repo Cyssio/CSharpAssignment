@@ -57,4 +57,24 @@ public class CustomerService_Tests
         ICustomer returnedCustomer = result.FirstOrDefault()!;
         Assert.Equal(1, returnedCustomer.Id);
     }
+
+    [Fact]
+
+    public void GetCustomerById_WhenValidId_ReturnsCustomer()
+    {
+        // Arrange
+        var mockFileService = new Mock<IFileService>();
+        var customerService = new CustomerService(mockFileService.Object);
+        var customerId = 1;
+        var customer = new Customer { Id = 1, FirstName = "Mattias", LastName = "Kasto", PhoneNumber = "071234-56-78", Email = "mattias@domain.com", Address = "Örebro" };
+        customerService.AddToList(customer);
+
+        // Act
+        var result = customerService.GetCustomerById(customerId);
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(customerId, result.Id);
+
+    }
 }
