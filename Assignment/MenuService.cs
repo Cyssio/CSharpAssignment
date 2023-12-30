@@ -17,9 +17,9 @@ internal class MenuService
             Console.WriteLine();
             Console.WriteLine($"{"1.", -3} Add a Customer");
             Console.WriteLine($"{"2.",-3} View All Customers");
-            Console.WriteLine($"{"3.",-3} Find Customer by ID");
-            Console.WriteLine($"{"4.",-3} Delete Customer by Email");
-            Console.WriteLine($"{"5.",-3} Exit");
+            Console.WriteLine($"{"3.",-3} Find a Customer by ID");
+            Console.WriteLine($"{"4.",-3} Delete a Customer by Email");
+            Console.WriteLine($"{"5.",-3} Exit Application");
             Console.WriteLine("-----------------------------");
             Console.Write("Enter your choice (1-5): ");
 
@@ -56,16 +56,16 @@ internal class MenuService
 
     private void AddCustomer(ICustomerService customerService)
     {
-        Console.Write("Enter first name: ");
+        Console.Write("Enter your first name: ");
         string firstName = Console.ReadLine()!;
 
-        Console.Write("Enter last name: ");
+        Console.Write("Enter your last name: ");
         string lastName = Console.ReadLine()!;
 
-        Console.Write("Enter email address: ");
+        Console.Write("Enter your email address: ");
         string email = Console.ReadLine()!;
 
-        Console.Write("Enter phone number: ");
+        Console.Write("Enter your phone number: ");
         string phoneNumber = Console.ReadLine()!;
 
         Console.Write("Enter address: ");
@@ -84,17 +84,17 @@ internal class MenuService
 
         if (addedSuccessfully)
         {
-            Console.WriteLine("Customer added successfully!");
+            Console.WriteLine("Customer was added successfully!");
         }
         else
         {
-            Console.WriteLine("Failed to add the customer. Please try again.");
+            Console.WriteLine("System failed to add the customer. The customer might already exist. Please try again.");
         }
     }
 
     private void ViewAllCustomers(ICustomerService customerService)
     {
-        Console.WriteLine("Viewing all customers...");
+        Console.WriteLine("Viewing all customers in the list...");
         var customers = customerService.GetAllFromList();
         foreach (var customer in customers)
         {
@@ -104,7 +104,7 @@ internal class MenuService
 
     private void FindCustomerById(ICustomerService customerService)
     {
-        Console.Write("Enter customer ID: ");
+        Console.Write("Enter the ID of the customer you search for: ");
         if (int.TryParse(Console.ReadLine(), out int customerId))
         {
             var customer = customerService.GetCustomerById(customerId);
@@ -114,7 +114,7 @@ internal class MenuService
             }
             else
             {
-                Console.WriteLine("Customer not found");
+                Console.WriteLine("Unfortunately the customer you're searching for couldn't be found.");
             }
         }
         else
@@ -125,18 +125,18 @@ internal class MenuService
 
     private void DeleteCustomerByEmail(ICustomerService customerService)
     {
-        Console.Write("Enter customer email: ");
+        Console.Write("Enter the Email of the customer you want to delete: ");
         string email = Console.ReadLine()!;
 
         bool deletionResult = customerService.DeleteCustomerByEmail(email);
 
         if (deletionResult)
         {
-            Console.WriteLine("Customer deleted successfully");
+            Console.WriteLine("Customer was deleted successfully!");
         }
         else
         {
-            Console.WriteLine("Deletion failed or customer not found");
+            Console.WriteLine("Sorry the deletion failed. The customer was not able to be found.");
         }
     }
 }
